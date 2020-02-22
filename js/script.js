@@ -51,9 +51,9 @@ unhide = unhideStuff => {
 //makes the user need to select shirt style before color is available
 initialColorDropDown = () => {
     initialMessage.textContent = "Please select a T-shirt theme"
+    //initialMessage.disabled = true;
     colors.appendChild(initialMessage);
 }
-
 //loop to make specific shirt options and colors available 
 colorsDropDown = () => {
     colorDropDown.style.display = '';
@@ -114,17 +114,14 @@ const paymentMethod = paymentElement => {
         creditCard.style.display = '';
         paypal.style.display = 'none';
         bitcoin.style.display = 'none';
-        registerForm.action = "index.html";
     } else if (paymentElement== "paypal") {
         creditCard.style.display = 'none';
         paypal.style.display = '';
         bitcoin.style.display = 'none';
-        registerForm.action = "http://www.paypal.com"
     } else if (paymentElement == "bitcoin") {
         creditCard.style.display = 'none';
         paypal.style.display = 'none';
-        bitcoin.style.display = '';    
-        registerForm.action = "http://www.coinbase.com"    
+        bitcoin.style.display = '';
     }
 }
 
@@ -142,45 +139,50 @@ function validateForm(){
 registerButton.textContent = "Register";
     const tryName = /^[^@\.\d]+\s[a-z]+$/i.test(document.getElementById("name").value);
     const tryEmail = /^[^@]+@[^@.]+\.[a-z]+$/i.test(document.getElementById("mail").value);
-    const tryCC = /^\d{16}$/.test(document.getElementById("cc-num").value);
+    const tryCC = /^\d{13,16}$/.test(document.getElementById("cc-num").value);
     const tryZip = /^\d{5}$/.test(document.getElementById("zip").value);
     const tryCvv = /^\d{3}$/.test(document.getElementById("cvv").value);
     function validateAllFields(varname, elementId){
-        if (paymentSelect.value == "credit card") { 
-            if (varname == false || varname == ""){
-                registerButton.textContent = "Fix fields in red";
-                document.getElementById(elementId).style.borderColor = 'red';
-            } else {
-                document.getElementById(elementId).style.borderColor = "#5e97b0"
-            }
-        }
-        if (registerButton.textContent == "Register") {
-            registerButton.type = 'submit';
+        registerButton.textContent = "Register";
+        if (varname == false || varname == ""){
+            registerButton.textContent = "Fix fields in red";
+            document.getElementById(elementId).style.borderColor = 'red';
+        } else {
+            document.getElementById(elementId).style.borderColor = "#5e97b0"
         }
     }
-
-    validateAllFields(tryName, "name");
-    validateAllFields(tryEmail, "mail");
-    validateAllFields(tryCC, "cc-num");
-    validateAllFields(tryZip, "zip");
-    validateAllFields(tryCvv, "cvv");
-
-    function validateSomeFields(varname, elementId){
-        if (paymentSelect.value == "paypal" || paymentSelect.value == "bitcoin") { 
-            if (varname == false || varname == ""){
-                registerButton.textContent = "Fix fields in red";
-                document.getElementById(elementId).style.borderColor = 'red';
-            } else {
-                document.getElementById(elementId).style.borderColor = "#5e97b0"
-            }
-        } 
-        if (registerButton.textContent == "Register") {
-            registerButton.type = 'submit';
+    function validateActivities(){
+        document.getElementsByClassName('activities')[0].style.backgroundColor = '#9BBEEF';
+        if (document.querySelectorAll('[data-cost]:checked').length == 0) {
+            document.getElementsByClassName('activities')[0].style.backgroundColor = 'red';
+            registerButton.textContent = "Fix fields in red";
+        } else {
+            document.getElementsByClassName('activities')[0].style.color = "rgba(6, 49, 68, 0.9)";
         }
     }
+    if (paymentSelect.value == "credit card") {
+        validateAllFields(tryName, "name");
+        validateAllFields(tryEmail, "mail");
+        validateAllFields(tryCC, "cc-num");
+        validateAllFields(tryZip, "zip");
+        validateAllFields(tryCvv, "cvv");
+        validateActivities();
+    }
 
-    validateSomeFields(tryName, "name");
-    validateSomeFields(tryEmail, "mail");
+    function validateSomeFields(varname, elementId){ 
+        registerButton.textContent = "Register";
+        if (varname == false || varname == ""){
+            registerButton.textContent = "Fix fields in red";
+            document.getElementById(elementId).style.borderColor = 'red';
+        } else {
+            document.getElementById(elementId).style.borderColor = "#5e97b0"
+        }
+    }
+    if (paymentSelect.value == "paypal" || paymentSelect.value == "bitcoin") {
+        validateSomeFields(tryName, "name");
+        validateSomeFields(tryEmail, "mail");
+        validateActivities();
+    }
 }
 
 /*
@@ -200,6 +202,8 @@ otherJobRole.addEventListener('change', (e) => {
     if (e.target.value === "other"){
         unhide('other-title');
         focus('other-title');
+    } else if (e.target.value != "other") {
+        hideOtherTitle('other-title');
     }
 });
 
@@ -219,4 +223,14 @@ selectPaymentOnLoad();
 
 registerButton.addEventListener('click', (e) => {
     validateForm();
+    if (registerButton.textContent == "Register") {
+        registerButton.type = 'submit';
+    }
+});
+
+//will clear the red borders and background in real time
+registerForm.addEventListener('change', (e) => {
+    if (registerButton.textContent == "Fix fields in red") {
+        validateForm();
+    }
 });
