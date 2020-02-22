@@ -87,52 +87,6 @@ hideColorUntilSelected = () => {
     }
 }
 
-/*The showOrHideTip() and createListener() is from the Workspace in 
-Treehouse's "Regular Expressions in Javascript" course found at: 
-https://teamtreehouse.com/library/validating-an-email. Then red, bold text
-will tell the user to change their input if incorrect using an event 
-listener also taken from the same Treehouse course's workspace */
-function showOrHideTip(show, element) {
-    // show element when show is true, hide when false
-    if (show) {
-        element.style.opacity = 1;
-        element.style.fontSize = 'large';
-        element.style.fontWeight = 'bolder';
-        element.style.color = 'red';
-    }
-}
-
-// //same as above: from Treehouse's "Regular Expressions in Javascript" course
-// //with some edits
-// const createListener = validator => {
-//     return e => {
-//         const text = e.target.value;
-//         const valid = validator(text);
-//         const showTip = text !== "" && !valid;
-//         const validateThatForm = (id, txtContentWrong, txtContentRight) => {
-//             if (e.target.id == id && showTip == true){
-//                 let tooltipElement = document.getElementById(id).previousElementSibling;
-//                 tooltipElement.textContent = txtContentWrong
-//                 showOrHideTip(showTip, tooltipElement);
-//             } else {
-//                 let tooltipElement = document.getElementById(id).previousElementSibling;
-//                 tooltipElement.textContent = txtContentRight;
-//                 tooltipElement.style.color = "#000";
-//                 tooltipElement.style.display = "block";
-//                 tooltipElement.style.marginBottom = ".5em";
-//                 tooltipElement.style.fontSize = 'medium';
-//                 tooltipElement.style.fontWeight = 'normal';
-//             }
-//         }    
-//         validateThatForm("name", "Name should be only letters", "Name:");
-//         validateThatForm("mail", "Email should be a valid email", "Email");
-//         validateThatForm("cc-num", "Credit card # should be valid", "Card Number:");
-//         validateThatForm("zip", "Needs valid Zipcode", "Zip Code:");
-//         validateThatForm("cvv", "Needs valid CVV", "CVV:" );
-//     };  
-// }
-
-
 //activities fieldset disables conflicting times selection and totals user input
 const checkBoxesWork = checkbox => {
     const activityList = document.querySelectorAll('[data-day-and-time]');
@@ -174,6 +128,7 @@ const paymentMethod = paymentElement => {
     }
 }
 
+//makes the 'credit card' option appear first thing on loading the page
 function selectPaymentOnLoad() {
     if (isFlagged != true) {
         paymentSelect.remove(selectPaymentMethod);
@@ -182,6 +137,7 @@ function selectPaymentOnLoad() {
     }
 }
 
+//validates the typed fields on "Register" button click. Errors in red borders
 function validateForm(){
 registerButton.textContent = "Register";
     const tryName = /^[^@\.\d]+\s[a-z]+$/i.test(document.getElementById("name").value);
@@ -226,73 +182,6 @@ registerButton.textContent = "Register";
     validateSomeFields(tryName, "name");
     validateSomeFields(tryEmail, "mail");
 }
-    // }
-    // if (paymentSelect.value == "credit card") { 
-    //     if (tryName == false || tryName == ""){
-    //         registerButton.textContent = "Fix the Name field";
-    //         document.getElementById("name").style.borderColor = 'red';
-    //     } else {
-    //         document.getElementById("name").style.borderColor = "#5e97b0"
-    //     }
-    //     if (tryEmail == false ||  tryEmail == ""){
-    //         registerButton.textContent = "Fix the Email field";
-    //         document.getElementById("mail").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("mail").style.borderColor = "#5e97b0"
-    //     }
-    //     if (tryCC == false || tryCC == ""){
-    //         registerButton.textContent = "Fix the Credit Card field";
-    //         document.getElementById("cc-num").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("cc-num").style.borderColor = "#5e97b0"
-    //     }
-    //     if (tryZip == false || tryZip == ""){
-    //         registerButton.textContent = "Fix the Zip Code field";
-    //         document.getElementById("zip").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("zip").style.borderColor = "#5e97b0"
-    //     }
-    //     if (tryCvv == false || tryCvv == ""){
-    //         registerButton.textContent = "Fix the CVV field";
-    //         document.getElementById("cvv").style.borderColor = 'red';
-    //     }else{document.getElementById("cvv").style.borderColor = "#5e97b0"
-    //     }
-    //     if (registerButton.textContent == "Register") {
-    //         registerButton.type = 'submit';
-    //     }
-    // } else if (paymentSelect.value == "paypal") {
-    //     if (tryName == false || tryName == ""){
-    //         registerButton.textContent = "Fix the Name field";
-    //         document.getElementById("name").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("name").style.borderColor = "#5e97b0"
-    //     }
-    //     if (tryEmail == false ||  tryEmail == ""){
-    //         registerButton.textContent = "Fix the Email field";
-    //         document.getElementById("mail").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("mail").style.borderColor = "#5e97b0"
-    //     }
-        // if (registerButton.textContent == "Register") {
-        //     registerButton.type = 'submit';
-        // }
-    // } else if (paymentSelect.value == "bitcoin") {
-    //     if (tryName == false || tryName == ""){
-    //         registerButton.textContent = "Fix the Name field";
-    //         document.getElementById("name").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("name").style.borderColor = "#5e97b0"
-    //     }
-    //     if (tryEmail == false ||  tryEmail == ""){
-    //         registerButton.textContent = "Fix the Email field";
-    //         document.getElementById("mail").style.borderColor = 'red';
-    //     }else{
-    //         document.getElementById("mail").style.borderColor = "#5e97b0"
-    //     }
-    //     if (registerButton.textContent == "Register") {
-    //         registerButton.type = 'submit';
-    //     }
-    // }  
 
 /*
 executing flow of the form and event listeners
