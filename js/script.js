@@ -25,7 +25,6 @@ const creditCard = document.getElementById('credit-card');
 const paypal = document.getElementById('paypal');
 const bitcoin = document.getElementById('bitcoin');
 const registerForm = document.getElementsByTagName('FORM')[0];
-//turning button into "button" so the form will stop giving 405 error on click
 registerButton.type = "button";
 let isFlagged = false;
 
@@ -53,6 +52,8 @@ initialColorDropDown = () => {
     initialMessage.textContent = "Please select a T-shirt theme"
     //initialMessage.disabled = true;
     colors.appendChild(initialMessage);
+    design[0].textContent = "Please select a T-shirt theme"
+    design[0].disabled = true;
 }
 //loop to make specific shirt options and colors available 
 colorsDropDown = () => {
@@ -70,7 +71,7 @@ colorsDropDown = () => {
             colors[4].style.display = '';
             colors[5].style.display = '';
             colors[3].selected = true;
-        } else if (design.value === "Select Theme") {
+        } else if (design.value === "Please select a T-shirt theme") {
             initialMessage.selected = true;
             hideColorUntilSelected();
         }
@@ -79,7 +80,7 @@ colorsDropDown = () => {
 
 //hides colors for shirts until the style is selected
 hideColorUntilSelected = () => {
-    if (design.value === "Select Theme"){
+    if (design.value === "Please select a T-shirt theme"){
         colorDropDown.style.display = 'none';
         colorLabel.style.display = 'none';
     } else {
@@ -143,7 +144,6 @@ registerButton.textContent = "Register";
     const tryZip = /^\d{5}$/.test(document.getElementById("zip").value);
     const tryCvv = /^\d{3}$/.test(document.getElementById("cvv").value);
     function validateAllFields(varname, elementId){
-        registerButton.textContent = "Register";
         if (varname == false || varname == ""){
             registerButton.textContent = "Fix fields in red";
             document.getElementById(elementId).style.borderColor = 'red';
@@ -169,18 +169,9 @@ registerButton.textContent = "Register";
         validateActivities();
     }
 
-    function validateSomeFields(varname, elementId){ 
-        registerButton.textContent = "Register";
-        if (varname == false || varname == ""){
-            registerButton.textContent = "Fix fields in red";
-            document.getElementById(elementId).style.borderColor = 'red';
-        } else {
-            document.getElementById(elementId).style.borderColor = "#5e97b0"
-        }
-    }
     if (paymentSelect.value == "paypal" || paymentSelect.value == "bitcoin") {
-        validateSomeFields(tryName, "name");
-        validateSomeFields(tryEmail, "mail");
+        validateAllFields(tryName, "name");
+        validateAllFields(tryEmail, "mail");
         validateActivities();
     }
 }
